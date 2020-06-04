@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/names")
-public class namesController {
+public class NamesController {
 
     // http://localhost:2019/names/all
     @GetMapping(value = "/all", produces = {"application/json"})
@@ -24,16 +24,16 @@ public class namesController {
     // http://localhost:2019/names/start/u
     @GetMapping(value = "/start/{letter}", produces = {"application/json"})
     public ResponseEntity<?> getCountriesByLetter(@PathVariable char letter) {
-        List<Country> Countries = CountrySearchApplication.myCountryList.
+        List<Country> countries = CountrySearchApplication.myCountryList.
                 findCountries(c -> c.getName().toUpperCase().charAt(0) == Character.toUpperCase(letter));
-        return new ResponseEntity<>(Countries, HttpStatus.OK);
+        return new ResponseEntity<>(countries, HttpStatus.OK);
     }
 
     // http://localhost:2019/names/size/20
     @GetMapping(value = "/size/{size}", produces = {"application/json"})
     public ResponseEntity<?> getCountriesByNameSize(@PathVariable long size) {
-        List<Country> Countries = CountrySearchApplication.myCountryList.
+        List<Country> countries = CountrySearchApplication.myCountryList.
                 findCountries(c -> c.getName().length() >= 20 );
-        return new ResponseEntity<>(Countries, HttpStatus.OK);
+        return new ResponseEntity<>(countries, HttpStatus.OK);
     }
 }
