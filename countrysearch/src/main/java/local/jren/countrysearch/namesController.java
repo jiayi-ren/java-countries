@@ -28,4 +28,12 @@ public class namesController {
                 findCountries(c -> c.getName().toUpperCase().charAt(0) == Character.toUpperCase(letter));
         return new ResponseEntity<>(Countries, HttpStatus.OK);
     }
+
+    // http://localhost:2019/names/size/20
+    @GetMapping(value = "/size/{size}", produces = {"application/json"})
+    public ResponseEntity<?> getCountriesByNameSize(@PathVariable long size) {
+        List<Country> Countries = CountrySearchApplication.myCountryList.
+                findCountries(c -> c.getName().length() >= 20 );
+        return new ResponseEntity<>(Countries, HttpStatus.OK);
+    }
 }
