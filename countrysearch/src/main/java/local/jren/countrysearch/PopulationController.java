@@ -7,7 +7,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/population")
@@ -19,5 +22,21 @@ public class PopulationController {
         List<Country> countries = CountrySearchApplication.myCountryList.
                 findCountries(c -> c.getPopulation() >= population);
         return new ResponseEntity<>(countries, HttpStatus.OK);
+    }
+
+    // http://localhost:2019/population/min
+    @GetMapping(value = "/min", produces = {"application/json"})
+    public ResponseEntity<?> getCountriesByMinPopulation() {
+        // Get Min population
+        List<Long> populations = new ArrayList<>();
+        for ( Country c : CountrySearchApplication.myCountryList.countryList) {
+            populations.add(c.getPopulation());
+        }
+        Long minPopu = populations.
+                stream().min(Comparator.comparing(c -> c)).get();
+        // find country with min population
+        Country minPopulation = CountrySearchApplication.myCountryList.
+                findCountry(c -> c.getPopulation() == minPopu);
+        return new ResponseEntity<>(minPopulation, HttpStatus.OK);
     }
 }
