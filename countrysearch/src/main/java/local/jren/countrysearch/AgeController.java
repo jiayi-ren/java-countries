@@ -38,4 +38,20 @@ public class AgeController {
                 findCountry(c -> c.getMedianAge() == minAge);
         return new ResponseEntity<>(match, HttpStatus.OK);
     }
+
+    // http://localhost:2019/age/max
+    @GetMapping(value = "/max", produces = {"application/json"})
+    public ResponseEntity<?> getCountryByMaxAge() {
+        // Get Max Median Age
+        List<Long> ages = new ArrayList<>();
+        for ( Country c : CountrySearchApplication.myCountryList.countryList) {
+            ages.add(c.getMedianAge());
+        }
+        Long maxAge = ages.
+                stream().max(Comparator.comparing(c -> c)).get();
+        // find country with max median age
+        Country match = CountrySearchApplication.myCountryList.
+                findCountry(c -> c.getMedianAge() == maxAge);
+        return new ResponseEntity<>(match, HttpStatus.OK);
+    }
 }
