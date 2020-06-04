@@ -39,4 +39,20 @@ public class PopulationController {
                 findCountry(c -> c.getPopulation() == minPopu);
         return new ResponseEntity<>(minPopulation, HttpStatus.OK);
     }
+
+    // http://localhost:2019/population/max
+    @GetMapping(value = "/max", produces = {"application/json"})
+    public ResponseEntity<?> getCountriesByMaxPopulation() {
+        // Get Max population
+        List<Long> populations = new ArrayList<>();
+        for ( Country c : CountrySearchApplication.myCountryList.countryList) {
+            populations.add(c.getPopulation());
+        }
+        Long maxPopu = populations.
+                stream().max(Comparator.comparing(c -> c)).get();
+        // find country with max population
+        Country maxPopulation = CountrySearchApplication.myCountryList.
+                findCountry(c -> c.getPopulation() == maxPopu);
+        return new ResponseEntity<>(maxPopulation, HttpStatus.OK);
+    }
 }
