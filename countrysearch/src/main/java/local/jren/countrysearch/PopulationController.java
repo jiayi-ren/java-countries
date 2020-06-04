@@ -61,13 +61,9 @@ public class PopulationController {
         // sort
         CountrySearchApplication.myCountryList.countryList.sort((c1, c2) ->(int) (c1.getPopulation()-c2.getPopulation()));
         // find country with median population by index
-        Country match = null;
         int listSize = CountrySearchApplication.myCountryList.countryList.size();
-        if (listSize % 2 == 1) {
-            match = CountrySearchApplication.myCountryList.countryList.get(listSize/2+1);
-        }else {
-            match = CountrySearchApplication.myCountryList.countryList.get(listSize/2);
-        }
+        Country match = CountrySearchApplication.myCountryList.countryList.get(listSize/2+1);
+
         return new ResponseEntity<>(match, HttpStatus.OK);
     }
 }
