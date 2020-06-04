@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -19,5 +21,21 @@ public class AgeController {
         List<Country> countries = CountrySearchApplication.myCountryList.
                 findCountries(c -> c.getMedianAge() >= median);
         return new ResponseEntity<>(countries, HttpStatus.OK);
+    }
+
+    // http://localhost:2019/age/min
+    @GetMapping(value = "/min", produces = {"application/json"})
+    public ResponseEntity<?> getCountryByMinAge() {
+        // Get Min Median Age
+        List<Long> ages = new ArrayList<>();
+        for ( Country c : CountrySearchApplication.myCountryList.countryList) {
+            ages.add(c.getMedianAge());
+        }
+        Long minAge = ages.
+                stream().min(Comparator.comparing(c -> c)).get();
+        // find country with min median age
+        Country match = CountrySearchApplication.myCountryList.
+                findCountry(c -> c.getMedianAge() == minAge);
+        return new ResponseEntity<>(match, HttpStatus.OK);
     }
 }

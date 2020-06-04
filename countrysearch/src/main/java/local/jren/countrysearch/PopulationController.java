@@ -31,12 +31,12 @@ public class PopulationController {
         for ( Country c : CountrySearchApplication.myCountryList.countryList) {
             populations.add(c.getPopulation());
         }
-        Long minPopu = populations.
+        Long minPopulation = populations.
                 stream().min(Comparator.comparing(c -> c)).get();
         // find country with min population
-        Country minPopulation = CountrySearchApplication.myCountryList.
-                findCountry(c -> c.getPopulation() == minPopu);
-        return new ResponseEntity<>(minPopulation, HttpStatus.OK);
+        Country match = CountrySearchApplication.myCountryList.
+                findCountry(c -> c.getPopulation() == minPopulation);
+        return new ResponseEntity<>(match, HttpStatus.OK);
     }
 
     // http://localhost:2019/population/max
@@ -47,11 +47,11 @@ public class PopulationController {
         for ( Country c : CountrySearchApplication.myCountryList.countryList) {
             populations.add(c.getPopulation());
         }
-        Long maxPopu = populations.
+        Long maxPopulation = populations.
                 stream().max(Comparator.comparing(c -> c)).get();
         // find country with max population
-        Country maxPopulation = CountrySearchApplication.myCountryList.
-                findCountry(c -> c.getPopulation() == maxPopu);
-        return new ResponseEntity<>(maxPopulation, HttpStatus.OK);
+        Country match = CountrySearchApplication.myCountryList.
+                findCountry(c -> c.getPopulation() == maxPopulation);
+        return new ResponseEntity<>(match, HttpStatus.OK);
     }
 }
